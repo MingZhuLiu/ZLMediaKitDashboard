@@ -1,0 +1,109 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="企视通">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="~/login/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="~/login/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="~/login/css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="~/login/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="~/login/css/custom.css">
+    <!-- Favicon-->
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+<body>
+    <div class="page login-page">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <!-- Logo & Information Panel-->
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                           
+
+                            <div class="content">
+                                <div class="logo">
+                                    <h1>联力视频采集平台</h1>
+                                </div>
+                                <p>在线阅览</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Panel    -->
+                    <div class="col-lg-6 bg-white">
+                        <div class="form d-flex align-items-center">
+                            <div class="content">
+                                <form method="post" action="~/Home/Login" class="form-validate">
+                                    <div class="form-group">
+                                        <input id="LoginName" type="text" name="LoginName" required data-msg="请输入您的用户名" class="input-material" value="@ViewBag.LastAccount">
+                                        <label for="login-username" class="label-material">用户名</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="LoginPasswd" type="password" name="LoginPasswd" required data-msg="请输入您的密码" class="input-material">
+                                        <label for="login-password" class="label-material">密码</label>
+                                    </div>
+                                    @{
+                                        if (!String.IsNullOrWhiteSpace(ViewBag.Info))
+                                        {
+                                            <p class="text-danger">@ViewBag.Info</p>
+                                        }
+                                    }
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <button id="login" type="submit" class="btn btn-primary">登录</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyrights text-center">
+            <p>
+            </p>
+
+        </div>
+    </div>
+
+
+    <!-- JavaScript files-->
+    <script src="~/login/vendor/jquery/jquery.min.js"></script>
+    <script src="~/login/vendor/popper.js/umd/popper.min.js"></script>
+    <script src="~/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/login/vendor/jquery.cookie/jquery.cookie.js"></script>
+    <script src="~/login/vendor/chart.js/Chart.min.js"></script>
+    <script src="~/login/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <!-- Main File-->
+    <script src="~/login/js/front.js"></script>
+
+
+</body>
+<script>
+
+    function login() {
+        Location.href = "http://localhost:8080/login/to";
+    }
+</script>
+
+
+</html>

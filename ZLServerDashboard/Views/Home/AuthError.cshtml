@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "权限错误";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+<script src="~/js/tools.js"></script>
+
+@*<link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">*@
+<div class="layui-fluid">
+    <div class="layadmin-tips">
+        <i class="layui-icon" face>&#xe664;</i>
+        <div class="layui-text" style="font-size: 20px;border-top:5px solid #DD5145">
+            @Html.Raw("您还没有权限进行操作!")
+        </div>
+
+        <div class="layui-text" style="font-size: 20px;border-top:0px solid #DD5145;">
+            @*<a href="javascript:back();" id="a_back" style="text-decoration: none;color:#DD5145">返回</a>*@
+        </div>
+    </div>
+</div>
+
+<script>
+    function back() {window.history.back();
+    }
+</script>

@@ -1,0 +1,4 @@
+﻿Scaffold-DbContext  "Data Source=192.168.130.88;Initial Catalog=MediaPlat;User ID=sa;Password=EAinfo!@#123;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataBase  -Force
+
+
+dotnet ef dbcontext scaffold 'Data Source=192.168.130.88;Initial Catalog=MediaPlat;User ID=sa;Password=EAinfo!@#123;' Microsoft.EntityFrameworkCore.SqlServer -o DataBase -f

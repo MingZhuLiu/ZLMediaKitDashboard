@@ -1,0 +1,141 @@
+﻿@model ZLServerDashboard.Models.ViewDto.UserEditDataSourceDto
+
+@{
+    ViewData["Title"] = "添加用户";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+    <form class="layui-form" action="" lay-filter="component-form-element" style="margin:30px" id="form1" name="form1">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户姓名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" lay-verify="required" placeholder="请输用户姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别：</label>
+            <div class="layui-input-block">
+                <select name="Sex" lay-search>
+                    <option value="1" selected="selected">男</option>
+                    <option value="0">女</option>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" name="Sculpture" value="" />
+
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="LoginName" placeholder="请输入账号" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码：</label>
+            <div class="layui-input-block">
+                <input type="password" name="LoginPasswd" placeholder="请输入密码" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+
+     
+
+        @if (Model.AllRoles != null)
+        {
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户角色：</label>
+            <div class="layui-input-block">
+
+                <select name="TempRoleId" lay-search>
+                    @{
+                            bool flag_role = false;
+                            foreach (var item in Model.AllRoles)
+                            {
+                                if (!flag_role)
+                                {
+                        <option value="@item.Id" selected="selected">@item.Name</option>
+                                    flag_role = true;
+                                }
+                                else
+                                {
+                        <option value="@item.Id">@item.Name</option>
+
+                                }
+                            }
+                    }
+                </select>
+            </div>
+        </div>
+        }
+ 
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+                <select name="State" lay-search>
+                    <option value="200" selected="selected">正常</option>
+                    <option value="500">停用</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话：</label>
+            <div class="layui-input-block">
+                <input type="text" name="Tel" placeholder="请输入电话" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="Address" placeholder="请输入地址" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+                <div class="layui-input-block" style="left: 0;">
+                    <button class="layui-btn" lay-submit="" lay-filter="submitForm">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
+
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+           , upload = layui.upload;
+        layui.form.render();
+
+
+
+        //监听提交
+        form.on('submit(submitForm)', function (data) {
+            var tip = layer.msg('保存中....', { icon: 16, shade: 0.3, time: 0 });
+            $.post("/User/Add", data.field, function (result) {
+                layer.close(tip);
+                if (result.Flag) {
+                    parent.successMsg('保存成功');
+                    parent.reload();
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                }
+                else {
+                    layer.msg(result.Msg, { icon: 5 }, function () {
+
+                    });
+                }
+            });
+            return false;
+
+        });
+    });
+
+
+
+</script>

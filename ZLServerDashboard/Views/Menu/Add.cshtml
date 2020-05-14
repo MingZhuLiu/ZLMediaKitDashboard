@@ -1,0 +1,94 @@
+﻿@model ZLServerDashboard.Models.ViewDto.MenuEditDatasourceDto
+@{
+    ViewData["Title"] = "添加菜单";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<form class="layui-form" action="" lay-filter="component-form-element" style="margin:30px" id="form1" name="form1">
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称：</label>
+        <div class="layui-input-block">
+            <input type="text" name="Name" lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">父级菜单：</label>
+        <div class="layui-input-block">
+            <select name="ParentId" lay-search>
+                <option value=""></option>
+                @foreach (var item in Model.Menus)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单链接：</label>
+        <div class="layui-input-block">
+            <input type="text" name="Url" placeholder="请输入菜单链接" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单图标：</label>
+        <div class="layui-input-block">
+            <input type="text" name="Icon" placeholder="请输入菜单图标" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单排序：</label>
+        <div class="layui-input-block">
+            <input type="text" name="Order" placeholder="请输入菜单序号" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态：</label>
+        <div class="layui-input-block">
+            <select name="Status" lay-search>
+                <option value="200" selected="selected">正常</option>
+                <option value="500">停用</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-layout-admin">
+        <div class="layui-input-block">
+            <div class="layui-input-block" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="submitForm">保存</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        form.render();
+        //监听提交
+        form.on('submit(submitForm)', function (data) {
+            var tip = layer.msg('保存中....', { icon: 16, shade: 0.3, time: 0 });
+            $.post("/Menu/Add", data.field, function (result) {
+                layer.close(tip);
+                if (result.Flag) {
+                    parent.successMsg('保存成功');
+                    //layer.msg('保存成功', { icon: 6 }, function () {
+                    parent.reload();
+                    var index = parent.layer.getFrameIndex('addMenu'); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                    //});
+                }
+                else {
+                    layer.msg(result.Msg, { icon: 5 }, function () { });
+                }
+            });
+            return false;
+
+        });
+    });
+ 
+
+</script>

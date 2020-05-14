@@ -1,0 +1,46 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"]</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="~/layuiadmin/layui/layui.all.js"></script>
+    <script src="~/jquery/jquery-3.4.1.min.js"></script>
+    <script src="~/js/tools.js?v=1.2"></script>
+</head>
+<body>
+    @RenderBody()
+    <script>
+        $.fn.serializeJson = function () {
+            var serializeObj = {};
+            var array = this.serializeArray();
+            $(array).each(function () {
+                if (serializeObj[this.name]) {
+                    if ($.isArray(serializeObj[this.name])) {
+                        serializeObj[this.name].push(this.value);
+                    } else {
+                        serializeObj[this.name] = [serializeObj[this.name], this.value];
+                    }
+                } else {
+                    serializeObj[this.name] = this.value;
+                }
+            });
+            return serializeObj;
+        };
+
+    </script>
+</body>
+</html>
+
+
+
+
+<script>
+
+</script>
