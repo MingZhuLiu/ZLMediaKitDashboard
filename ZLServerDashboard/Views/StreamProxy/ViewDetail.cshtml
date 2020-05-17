@@ -1,0 +1,169 @@
+@model ZLServerDashboard.Models.ViewDto.StreamProxyViewDto
+
+@{
+ViewData["Title"] = "查看视频详情";
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<script type="text/javascript" charset="utf-8" src="/lib/flv.js/flv.min.js"></script>
+
+
+
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+  <ul class="layui-tab-title">
+    <li class="layui-this">播放地址</li>
+    <!--  <li>视频流信息</li>
+  <li>视频预览-HLS</li>  -->
+    <li>视频预览-FLV</li>
+  </ul>
+  <div class="layui-tab-content" style="height: 100px;">
+    <div class="layui-tab-item layui-show">
+      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;margin-bottom: 0px;">
+        <legend>RTSP & RTSPS</legend>
+      </fieldset>
+      <blockquote class="layui-elem-quote" style="padding-top: 0px;padding-bottom:0px;margin-bottom: 0px;">
+        @Model.RtspDomainUrl
+        <br />
+        @Model.RtspUrl
+        <br />
+        @Model.RtspsDomainUrl
+        <br />
+        @Model.RtspsUrl
+      </blockquote>
+
+      @* <blockquote class="layui-elem-quote">@Model.RtspDomainUrl<br />@Model.RtspUrl</blockquote>
+      <blockquote class="layui-elem-quote">@Model.RtspsDomainUrl<br />@Model.RtspsUrl</blockquote> *@
+
+
+
+      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;margin-bottom: 0px;">
+        <legend>RTMP & RTMPS</legend>
+      </fieldset>
+      <blockquote class="layui-elem-quote" style="padding-top: 0px;padding-bottom:0px;margin-bottom: 0px;">
+        @Model.RtmpDomainUrl
+        <br />
+        @Model.RtmpUrl
+        <br />
+        @Model.RtmpsDomainUrl
+        <br />
+        @Model.RtmpsUrl
+      </blockquote>
+      @* <blockquote class="layui-elem-quote"></blockquote> *@
+
+
+      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;margin-bottom: 0px;">
+        <legend>FLV</legend>
+      </fieldset>
+
+      <blockquote class="layui-elem-quote" style="padding-top: 0px;padding-bottom:0px;margin-bottom: 0px;">
+        @Model.HttpFlvDomainUrl
+        <br />
+        @Model.HttpFlvUrl
+        <br />
+        @Model.HttpsFlvDomainUrl
+        <br />
+        @Model.HttpsFlvUrl
+      </blockquote>
+      @* <blockquote class="layui-elem-quote">@Model.HttpFlvDomainUrl<br />@Model.HttpFlvUrl</blockquote>
+      <blockquote class="layui-elem-quote">@Model.HttpsFlvDomainUrl<br />@Model.HttpsFlvUrl</blockquote> *@
+
+      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;margin-bottom: 0px;">
+        <legend>WebSocket</legend>
+      </fieldset>
+      <blockquote class="layui-elem-quote" style="padding-top: 0px;padding-bottom:0px;margin-bottom: 0px;">
+        @Model.WsFlvDomainUrl
+        <br />
+        @Model.WsFlvUrl
+        <br />
+        @Model.WssFlvDomainUrl
+        <br />
+        @Model.WssFlvUrl
+      </blockquote>
+
+      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;margin-bottom: 0px;">
+        <legend>HLS</legend>
+      </fieldset>
+      <blockquote class="layui-elem-quote" style="padding-top: 0px;padding-bottom:0px;margin-bottom: 0px;">
+      @Model.HlsHttpDomainUrl
+        <br />
+        @Model.HlsHttpUrl
+        <br />
+        @Model.HlsHttpsDomainUrl
+        <br />
+        @Model.HlsHttpsUrl
+      </blockquote>
+
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 0px;margin-bottom: 0px;">
+        <legend>视频流信息</legend>
+      </fieldset>
+  <pre class="layui-code">
+   @Model.StreamProxyJson
+  </pre>
+    </div>
+
+
+
+    <div class="layui-tab-item">
+       <div class="mainContainer" id="mainContainer" style="width: 100%;">
+        <video name="videoElement" class="centeredVideo" id="videoElement"  playsinline="true"  style="width: 100%;height:100%;object-fit: fill;" autoplay>
+            Your browser is too old which doesn't support HTML5 video.
+        </video>
+    </div>
+    </div>
+
+
+
+    <script>
+      $(function () {
+
+       //playHls();
+        playFlv();
+ window.onresize = function () {
+        var height =$(window).height();
+          $("#videoElement").height(height);
+          $("#mainContainer").height(height);
+      }
+      });
+
+
+    
+var layer;
+layui.use('layer', function(){ //独立版的layer无需执行这一句
+  var $ = layui.jquery;
+   layer = layui.layer; //独立版的layer无需执行这一句
+});
+
+  /*  function copyLink(obj)
+    {
+      copyToClipboard(obj.innerText);
+      //window.clipboardData.setData("Text",obj.innerText);
+       layer.msg('复制成功!', {
+        time: 1500, //20s后自动关闭
+      });
+    }
+    */
+
+
+  function playFlv() {
+    var height = $(window).height();
+     $("#videoElement").height(height-70);
+     $("#mainContainer").height(height-70);
+    if (flvjs.isSupported()) {
+      var videoElement = document.getElementById('videoElement');
+      var flvPlayer = flvjs.createPlayer({
+        type: 'flv',
+        url: '@Model.WsFlvUrl&Token=@Model.Token',
+        isLive: true,
+                hasAudio: false,
+                hasVideo: true,
+                enableStashBuffer: true,
+      });
+      flvPlayer.attachMediaElement(videoElement);
+      flvPlayer.load();
+      flvPlayer.play();
+    }
+  }
+
+
+    </script>

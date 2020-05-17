@@ -20,6 +20,7 @@ namespace ZLServerDashboard.Controllers
         protected IUserService userService;
         protected IMenuService menuService;
         protected IRoleService roleService;
+        protected IMediaService mediaService;
         protected IMapper mapper;
         protected MediaPlatContext dbContext;
 
@@ -53,9 +54,10 @@ namespace ZLServerDashboard.Controllers
 
         private TokenDto GetWebTokenDto()
         {
-            var token = GetCookies(CookieKeys.WebToken);
-            token = RSAHelper.Instance.Decrypt(token);
+            var sourceToken = GetCookies(CookieKeys.WebToken);
+            var token = RSAHelper.Instance.Decrypt(sourceToken);
             var tokenDto = Newtonsoft.Json.JsonConvert.DeserializeObject<TokenDto>(token);
+            tokenDto.TokenStr=sourceToken;
             return tokenDto;
         }
 

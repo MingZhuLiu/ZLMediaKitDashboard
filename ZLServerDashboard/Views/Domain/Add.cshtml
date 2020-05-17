@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "添加域名";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<form class="layui-form" action="" lay-filter="component-form-element" style="margin:30px" id="form1" name="form1">
+    <div class="layui-form-item">
+        <label class="layui-form-label">域名名称：</label>
+        <div class="layui-input-block">
+            <input type="text" name="DomainName" lay-verify="required" placeholder="请输入域名名称：" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+  
+    <div class="layui-form-item">
+        <label class="layui-form-label">域名备注：</label>
+        <div class="layui-input-block">
+            <textarea name="Remark" style="height: 100px;" placeholder="请输入域名备注：" class="layui-input" ></textarea>
+        </div>
+    </div>
+ 
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态：</label>
+        <div class="layui-input-block">
+            <select name="Status" lay-search>
+                <option value="200" selected="selected">正常</option>
+                <option value="500">停用</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-layout-admin">
+        <div class="layui-input-block">
+            <div class="layui-input-block" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="submitForm">保存</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        form.render();
+        //监听提交
+        form.on('submit(submitForm)', function (data) {
+            var tip = layer.msg('保存中....', { icon: 16, shade: 0.3, time: 0 });
+            $.post("/Domain/Add", data.field, function (result) {
+                layer.close(tip);
+                if (result.Flag) {
+                    parent.successMsg('保存成功');
+                    //layer.msg('保存成功', { icon: 6 }, function () {
+                    parent.reload();
+                    var index = parent.layer.getFrameIndex('addMenu'); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                    //});
+                }
+                else {
+                    layer.msg(result.Msg, { icon: 5 }, function () { });
+                }
+            });
+            return false;
+
+        });
+    });
+ 
+
+</script>

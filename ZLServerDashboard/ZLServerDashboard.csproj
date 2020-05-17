@@ -21,6 +21,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="StackExchange.Redis" Version="2.1.39" />
+    <PackageReference Include="ZLMediaKit.DotNetCoreLib" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

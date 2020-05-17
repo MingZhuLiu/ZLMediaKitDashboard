@@ -7,6 +7,12 @@ namespace ZLServerDashboard.DataBase
     {
         public TbUser()
         {
+            TbApplicationCreateByNavigation = new HashSet<TbApplication>();
+            TbApplicationUpdateByNavigation = new HashSet<TbApplication>();
+            TbDomainCreateByNavigation = new HashSet<TbDomain>();
+            TbDomainUpdateByNavigation = new HashSet<TbDomain>();
+            TbStreamProxyCreateByNavigation = new HashSet<TbStreamProxy>();
+            TbStreamProxyUpdateByNavigation = new HashSet<TbStreamProxy>();
             TbUserRole = new HashSet<TbUserRole>();
         }
 
@@ -20,6 +26,12 @@ namespace ZLServerDashboard.DataBase
         public int State { get; set; }
         public DateTime CreateTs { get; set; }
 
+        public virtual ICollection<TbApplication> TbApplicationCreateByNavigation { get; set; }
+        public virtual ICollection<TbApplication> TbApplicationUpdateByNavigation { get; set; }
+        public virtual ICollection<TbDomain> TbDomainCreateByNavigation { get; set; }
+        public virtual ICollection<TbDomain> TbDomainUpdateByNavigation { get; set; }
+        public virtual ICollection<TbStreamProxy> TbStreamProxyCreateByNavigation { get; set; }
+        public virtual ICollection<TbStreamProxy> TbStreamProxyUpdateByNavigation { get; set; }
         public virtual ICollection<TbUserRole> TbUserRole { get; set; }
     }
 }

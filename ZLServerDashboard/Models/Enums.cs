@@ -200,13 +200,50 @@ namespace ZLServerDashboard.Models
             Question = 1002
         }
 
+
+        public enum DomainState
+        {
+            Normal = 200,
+
+            Forbid = 500,
+
+            Deleted = 400
+        }
+        public enum ApplicationState
+        {
+            Normal = 200,
+
+            Forbid = 500,
+
+            Deleted = 400
+        }
+
+        public enum StreamProxyState
+        {
+            Normal = 200,
+
+            Forbid = 500,
+
+            Deleted = 400
+        }
+
+
+        public enum RTPType
+        {
+            TCP = 0,
+
+            UDP = 1,
+
+            Multicast = 2
+        }
+
         public enum MonitorStatus
         {
-            Normal=200,
+            Normal = 200,
 
-            Forbid=500,
+            Forbid = 500,
 
-            Deleted=400    
+            Deleted = 400
         }
 
         /// <summary>

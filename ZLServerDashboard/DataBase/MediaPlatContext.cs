@@ -15,9 +15,12 @@ namespace ZLServerDashboard.DataBase
         {
         }
 
+        public virtual DbSet<TbApplication> TbApplication { get; set; }
+        public virtual DbSet<TbDomain> TbDomain { get; set; }
         public virtual DbSet<TbMenu> TbMenu { get; set; }
         public virtual DbSet<TbMenuRole> TbMenuRole { get; set; }
         public virtual DbSet<TbRole> TbRole { get; set; }
+        public virtual DbSet<TbStreamProxy> TbStreamProxy { get; set; }
         public virtual DbSet<TbUser> TbUser { get; set; }
         public virtual DbSet<TbUserRole> TbUserRole { get; set; }
 
@@ -25,13 +28,77 @@ namespace ZLServerDashboard.DataBase
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=192.168.130.88;Initial Catalog=MediaPlat;User ID=sa;Password=EAinfo!@#123;");
+                optionsBuilder.UseSqlServer(Startup.sqlConn);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TbApplication>(entity =>
+            {
+                entity.ToTable("Tb_Application");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.App)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreateTs).HasColumnType("datetime");
+
+                entity.Property(e => e.Remark)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateTs).HasColumnType("datetime");
+
+                entity.HasOne(d => d.CreateByNavigation)
+                    .WithMany(p => p.TbApplicationCreateByNavigation)
+                    .HasForeignKey(d => d.CreateBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_APPLI_REFERENCE_TB_USER_CREA");
+
+                entity.HasOne(d => d.UpdateByNavigation)
+                    .WithMany(p => p.TbApplicationUpdateByNavigation)
+                    .HasForeignKey(d => d.UpdateBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_APPLI_REFERENCE_TB_USER_UPDA");
+            });
+
+            modelBuilder.Entity<TbDomain>(entity =>
+            {
+                entity.ToTable("Tb_Domain");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CreateTs).HasColumnType("datetime");
+
+                entity.Property(e => e.DomainName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Remark)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateTs).HasColumnType("datetime");
+
+                entity.HasOne(d => d.CreateByNavigation)
+                    .WithMany(p => p.TbDomainCreateByNavigation)
+                    .HasForeignKey(d => d.CreateBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_DOMAI_REFERENCE_TB_USER_CREA");
+
+                entity.HasOne(d => d.UpdateByNavigation)
+                    .WithMany(p => p.TbDomainUpdateByNavigation)
+                    .HasForeignKey(d => d.UpdateBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_DOMAI_REFERENCE_TB_USER_UPDA");
+            });
+
             modelBuilder.Entity<TbMenu>(entity =>
             {
                 entity.ToTable("Tb_Menu");
@@ -107,6 +174,59 @@ namespace ZLServerDashboard.DataBase
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TbStreamProxy>(entity =>
+            {
+                entity.ToTable("Tb_StreamProxy");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreateTs).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Remark)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SourceUrl)
+                    .IsRequired()
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StreamName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateTs).HasColumnType("datetime");
+
+                entity.HasOne(d => d.App)
+                    .WithMany(p => p.TbStreamProxy)
+                    .HasForeignKey(d => d.AppId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_STREA_REFERENCE_TB_APPLI");
+
+                entity.HasOne(d => d.CreateByNavigation)
+                    .WithMany(p => p.TbStreamProxyCreateByNavigation)
+                    .HasForeignKey(d => d.CreateBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_STREA_REFERENCE_TB_USER_CREA");
+
+                entity.HasOne(d => d.Domain)
+                    .WithMany(p => p.TbStreamProxy)
+                    .HasForeignKey(d => d.DomainId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_STREA_REFERENCE_TB_DOMAI");
+
+                entity.HasOne(d => d.UpdateByNavigation)
+                    .WithMany(p => p.TbStreamProxyUpdateByNavigation)
+                    .HasForeignKey(d => d.UpdateBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TB_STREA_REFERENCE_TB_USER_UPDA");
             });
 
             modelBuilder.Entity<TbUser>(entity =>

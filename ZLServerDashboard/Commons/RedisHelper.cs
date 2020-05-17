@@ -222,7 +222,7 @@ namespace ZLServerDashboard.Commons
                     return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
             }
         }
-        public T GetHash<T>(string tableName, long key)
+        public T GetHash<T>( long key)
         {
             var json = GetHash(typeof(T).Name, key);
             if (String.IsNullOrWhiteSpace(json))

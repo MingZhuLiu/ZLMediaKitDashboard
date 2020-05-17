@@ -1,6 +1,6 @@
 @{
-    ViewData["Title"] = "监控面板";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+ViewData["Title"] = "监控面板";
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 
@@ -10,8 +10,9 @@
     <form class="layui-form" action="" onsubmit="return false;">
 
         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md8">
+            <div class="layui-col-md12">
                 <div class="layui-row layui-col-space15">
+                    <!--
                     <div class="layui-col-md4">
                         <div class="layui-card">
                             <div class="layui-card-header">快捷方式</div>
@@ -137,153 +138,103 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  -->
                     <div class="layui-col-md12">
                         <div class="layui-card">
-                            <div class="layui-card-header">实时日志</div>
-                            <div class="layui-card-body"  >
-                                <div style="width: 100%;" id="div_logs" >
+                            <div class="layui-card-header">系统配置</div>
+                            <div class="layui-card-body layui-text">
+
+                                <table class="layui-table">
+                                    <colgroup>
+                                        <col width="150">
+                                        <col>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <td>日志级别</td>
+                                            <td>
+
+                                                <div class="layui-row">
+                                                    <div class="layui-col-sm3">
+                                                        <div class="grid-demo grid-demo-bg1">
+                                                            @if(ViewBag.ShowInfo)
+                                                            {
+                                                            <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                                                onclick="changeLogLevel(1)"><span
+                                                                    style="background-color: #d2d2d2;"
+                                                                    id="sp_1">一般</span><i
+                                                                    class="layui-icon layui-icon-ok"
+                                                                    style="color: #d2d2d2;" id="i_1"></i></div>
+                                                            }
+                                                            else{
+                                                            <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                                                onclick="changeLogLevel(1)"><span
+                                                                    style="background-color: #d2d2d2;"
+                                                                    id="sp_1">一般</span><i
+                                                                    class="layui-icon layui-icon-ok"
+                                                                    style="color: #d2d2d2;display:none;" id="i_1"></i>
+                                                            </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-col-sm3">
+                                                        <div class="grid-demo">
+
+                                                            <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                                                onclick="changeLogLevel(2)"><span
+                                                                    style="background-color: #6bbd79;"
+                                                                    id="sp_2">成功</span><i
+                                                                    class="layui-icon layui-icon-ok"
+                                                                    style="color: #6bbd79;" id="i_2"></i></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-col-sm3">
+                                                        <div class="grid-demo grid-demo-bg1">
+
+                                                            <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                                                onclick="changeLogLevel(3)"><span
+                                                                    style="background-color: #f5bf50;"
+                                                                    id="sp_3">警告</span><i
+                                                                    class="layui-icon layui-icon-ok"
+                                                                    style="color: #f5bf50;" id="i_3"></i></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-col-sm3">
+                                                        <div class="grid-demo">
+                                                            <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                                                onclick="changeLogLevel(4)"><span
+                                                                    style="background-color: #ed6a60;"
+                                                                    id="sp_4">错误</span><i
+                                                                    class="layui-icon layui-icon-ok"
+                                                                    style="color: #ed6a60;" id="i_4"></i></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+
+
+
+                            <div class="layui-col-md12">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">实时日志</div>
+                                    <div class="layui-card-body">
+                                        <div style="width: 100%;" id="div_logs">
+                                        </div>
+
+
+                                    </div>
                                 </div>
-
-                              
                             </div>
-                        </div>
-                      
-                    </div>
-                </div>
-            </div>
 
-            <div class="layui-col-md4">
-                <div class="layui-card">
-                    <div class="layui-card-header">系统配置</div>
-                    <div class="layui-card-body layui-text">
-
-                        <table class="layui-table">
-                            <colgroup>
-                                <col width="150">
-                                <col>
-                            </colgroup>
-                            <tbody>
-                              <tr>
-                                    <td>日志级别</td>
-                                    <td>
-                                         <div class="layui-row">
-                                        <div class="layui-col-xs6">
-                                        <div class="grid-demo grid-demo-bg1"> 
-                                            @if(ViewBag.ShowInfo)
-                                            {
-                                              <div class="layui-unselect layui-form-checkbox layui-form-checked" onclick="changeLogLevel(1)"><span style="background-color: #d2d2d2;" id="sp_1">一般</span><i class="layui-icon layui-icon-ok" style="color: #d2d2d2;" id="i_1"></i></div>
-                                            }
-                                            else{
-                                                <div class="layui-unselect layui-form-checkbox layui-form-checked" onclick="changeLogLevel(1)"><span style="background-color: #d2d2d2;" id="sp_1">一般</span><i class="layui-icon layui-icon-ok" style="color: #d2d2d2;display:none;" id="i_1"></i></div>
-                                            }
-                                        </div>
-                                        </div>
-                                        <div class="layui-col-xs6">
-                                        <div class="grid-demo">
-                                           <div class="layui-unselect layui-form-checkbox layui-form-checked" onclick="changeLogLevel(2)"><span style="background-color: #6bbd79;" id="sp_2">成功</span><i class="layui-icon layui-icon-ok" style="color: #6bbd79;" id="i_2"></i></div>
-                                        </div>
-                                        </div>
-                                        
-                                    </div>
-                                       
-                                       <div class="layui-row" style="margin-top: 2px;">
-                                        <div class="layui-col-xs6">
-                                        <div class="grid-demo grid-demo-bg1"> 
-                                            <div class="layui-unselect layui-form-checkbox layui-form-checked" onclick="changeLogLevel(3)"><span style="background-color: #f5bf50;" id="sp_3">警告</span><i class="layui-icon layui-icon-ok" style="color: #f5bf50;" id="i_3"></i></div>
-                                        </div>
-                                        </div>
-                                        <div class="layui-col-xs6">
-                                        <div class="grid-demo">
-                                              <div class="layui-unselect layui-form-checkbox layui-form-checked" onclick="changeLogLevel(4)"><span style="background-color: #ed6a60;" id="sp_4">错误</span><i class="layui-icon layui-icon-ok" style="color: #ed6a60;" id="i_4"></i></div>
-                                        </div>
-                                        </div>
-                                        
-                                    </div>
-
-                                    </td>
-                                </tr>
-                                   @*
-                                <tr>
-                                    <td>任务分配</td>
-                                    <td>
-                                        <input type="checkbox" id="sw_isAllocTask" name="sw_isAllocTask" lay-filter="sw_isAllocTask" lay-skin="switch" lay-text="开启|关闭">
-                                        <i>本服务是否执行任务分配工作</i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>遨游数据库</td>
-                                    <td>
-                                        <input type="checkbox" id="sw_isAllocTask" name="sw_isAllocTask" lay-filter="sw_isAllocTask" lay-skin="switch" lay-text="开启|关闭">
-                                        <i>遨游数据库分时复用</i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>基于框架</td>
-                                    <td>
-                                        <script type="text/html" template>
-                                            layui-v{{ layui.v }}
-                                        </script>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>主要特色</td>
-                                    <td>零门槛 / 响应式 / 清爽 / 极简</td>
-                                </tr>
-                                <tr>
-                                    <td>主要特色</td>
-                                    <td>零门槛 / 响应式 / 清爽 / 极简</td>
-                                </tr> *@
-                                <tr>
-                                    <td>任务控制</td>
-                                    <td style="padding-bottom: 0;">
-                                        <div class="layui-btn-container">
-                                            <a  class="layui-btn  layui-btn-sm layui-btn-danger" onclick="createTaskNowFunction()">手工执行</a>
-                                            <a class="layui-btn  layui-btn-sm" onclick="configTaskTime()" target="_blank" class="layui-btn">任务设置</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                    </div>
-                </div>
-
-                <div class="layui-card">
-                    <div class="layui-card-header">爬虫报告</div>
-                    <div class="layui-card-body layadmin-takerates" style="padding-bottom: 25px;">
-
-                 
-
-                        <div class="layui-progress" lay-showPercent="yes" style="margin-bottom: 30px;">
-                            <h3 id="reptileProcessIndex">抓取进度(0/0)</h3>
-                            <div class="layui-progress" lay-showpercent="true" lay-filter="reptileProcessIndexRate">
-                                <div  class="layui-progress-bar" lay-percent="0%"></div>
-                               <p style="padding-top: 8px;" id="runTime"></p>
-                            </div>
-                        </div>
-                        <hr class="layui-bg-orange" style="visibility:hidden;" >
-                         <div class="layui-progress" lay-showPercent="yes" style="margin-top: 10px;" >
-                            <h3 id="newQuestionRate">新问题占比(0/0)</h3>
-                            <div class="layui-progress" lay-showpercent="true" lay-filter="newQuestionProcessRate">
-                                <div class="layui-progress-bar" lay-percent="3%"></div>
-                                <p style="padding-top: 15px;" id="nowTopic">当前话题:</p>
-                            </div>
-                        </div>
-                        
-                      
-                       
-
-                        <!--<div class="layui-progress" lay-showPercent="yes">
-                            <h3>签到率（日同比 11% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
-                            <div class="layui-progress-bar" lay-percent="32%"></div>
-                        </div>-->
-                     
-                    </div>
-                </div>
-            </div>
-        </div>
     </form>
 </div>
 
@@ -298,169 +249,154 @@
     }).use(['index', 'console']);
 
 
-    var form, layer,element;
+    var form, layer, element;
 
 
 
     $(function () {
-        layui.use(['form', 'layer','element'], function () {
+        layui.use(['form', 'layer', 'element'], function () {
             layer = layui.layer;
             form = layui.form;
-            element= layui.element;
+            element = layui.element;
 
         });
 
     });
 
-var logList= document.getElementById('div_logs');
-    function createTaskNowFunction()
-    {
-         $.post("/ZhiHu/CreateTaskNowFunction", {}, function (result) {
-                if (result.Flag) {
-                  successMsg(result.Msg);
-                }
-                else {
-                    errorMsg(result.Msg);
-                }
-            });
+    var logList = document.getElementById('div_logs');
+    function createTaskNowFunction() {
+        $.post("/ZhiHu/CreateTaskNowFunction", {}, function (result) {
+            if (result.Flag) {
+                successMsg(result.Msg);
+            }
+            else {
+                errorMsg(result.Msg);
+            }
+        });
     }
 
     var connection = new signalR.HubConnectionBuilder().withUrl("/webhub").build();
-   
+
     connection.on("WriteLog", function (level, message) {
-        var htmlNode='';
-        var node=document.createElement("i");
-    
-        if(level==1)
-        {
+        var htmlNode = '';
+        var node = document.createElement("i");
+
+        if (level == 1) {
             //一般
-            node.style='word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;';
-            node.innerText=message;
+            node.style = 'word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;';
+            node.innerText = message;
         }
-        else if(level==2)
-        {
+        else if (level == 2) {
             //成功
-            node.style='word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;color:#549e50;';
-            node.innerText=message;
+            node.style = 'word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;color:#549e50;';
+            node.innerText = message;
         }
-        else if(level==3)
-        {
+        else if (level == 3) {
             //警告
-            node.style='word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;color:#f5bf50;';
-            node.innerText=message;
+            node.style = 'word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;color:#f5bf50;';
+            node.innerText = message;
         }
-        else if(level==4)
-        {
+        else if (level == 4) {
             //失败
-            node.style='word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;color:#ed6a60;';
-            node.innerText=message;
-        }
-            
-        if(logList.children.length>=200)
-        {
-            logList.removeChild(logList.children[logList.children.length-1]);
+            node.style = 'word-wrap: break-word;word-break: break-all;overflow: hidden;font-style:normal;color:#ed6a60;';
+            node.innerText = message;
         }
 
-        var div=document.createElement('div');
+        if (logList.children.length >= 200) {
+            logList.removeChild(logList.children[logList.children.length - 1]);
+        }
+
+        var div = document.createElement('div');
         div.appendChild(node);
-        if(logList.children.length==0)
-        {
+        if (logList.children.length == 0) {
             logList.appendChild(div);
         }
-        else{
-            logList.insertBefore(div,logList.children[0]);
+        else {
+            logList.insertBefore(div, logList.children[0]);
         }
     });
 
-    
+
     async function start() {
-            try {
-                await connection.start();
-            } catch (err) {
-                console.log(err);
-                setTimeout(() => start(), 5000);
-            }
-        };
-        start();
-        connection.onclose(async () => {
-            console.info('监听到链接关闭');
-            await start();
-        });
-
-
-    function changeLogLevel(index)
-    {
-       var flag=false;
-       debugger
-        var span=$("#sp_"+index);
-        var i=$("#i_"+index);
-        var display=  i.css('display');
-        if(display===undefined||display==='block')
-        {
-            flag=false;
-            i.hide();
-            
+        try {
+            await connection.start();
+        } catch (err) {
+            console.log(err);
+            setTimeout(() => start(), 5000);
         }
-        else
-        {
-            flag=true;
+    };
+    start();
+    connection.onclose(async () => {
+        console.info('监听到链接关闭');
+        await start();
+    });
+
+
+    function changeLogLevel(index) {
+        var flag = false;
+        debugger
+        var span = $("#sp_" + index);
+        var i = $("#i_" + index);
+        var display = i.css('display');
+        if (display === undefined || display === 'block') {
+            flag = false;
+            i.hide();
+
+        }
+        else {
+            flag = true;
             i.show();
         }
 
 
-         $.post("/Home/ChangeLogLevel", {type:index,flag:flag}, function (result) {
-               
-
-
-            });
+        $.post("/Home/ChangeLogLevel", { type: index, flag: flag }, function (result) {
 
 
 
+        });
 
-        
-        switch(index)
-        {
+
+
+
+
+        switch (index) {
             case 1:
-                if(flag)
-                {
-                    span.css('background-color','#d2d2d2');
+                if (flag) {
+                    span.css('background-color', '#d2d2d2');
                 }
-                else{
-                    span.css('background-color','#d2d2d2');
+                else {
+                    span.css('background-color', '#d2d2d2');
                 }
-              break;
+                break;
             case 2:
-                if(flag)
-                {
-                    span.css('background-color','#6bbd79');
+                if (flag) {
+                    span.css('background-color', '#6bbd79');
                 }
-                else{
-                    span.css('background-color','#d2d2d2');
+                else {
+                    span.css('background-color', '#d2d2d2');
                 }
-              break;
+                break;
             case 3:
-                if(flag)
-                {
-                    span.css('background-color','#f5bf50');
+                if (flag) {
+                    span.css('background-color', '#f5bf50');
                 }
-                else{
-                    span.css('background-color','#d2d2d2');
+                else {
+                    span.css('background-color', '#d2d2d2');
                 }
-              break;
+                break;
             case 4:
-                if(flag)
-                {
-                    span.css('background-color','#ed6a60');
+                if (flag) {
+                    span.css('background-color', '#ed6a60');
                 }
-                else{
-                    span.css('background-color','#d2d2d2');
+                else {
+                    span.css('background-color', '#d2d2d2');
                 }
-              break;
+                break;
         }
-      
+
     }
 
 
-  
+
 
 </script>

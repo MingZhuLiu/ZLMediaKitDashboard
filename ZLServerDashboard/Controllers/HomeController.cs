@@ -95,7 +95,7 @@ namespace ZLServerDashboard.Controllers
         {
             ViewBag.Account = UserInfo.LoginName;
             IndexPageDto dto = new IndexPageDto();
-            dto.Title = "视频采集平台";
+            dto.Title = "联力视频采集平台";
             dto.User = UserInfo;
             dto.Menus = userService.FindUserMenuTree(UserInfo);
             return View(dto);

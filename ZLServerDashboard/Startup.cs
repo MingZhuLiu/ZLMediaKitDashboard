@@ -35,10 +35,12 @@ namespace ZLServerDashboard
 
         public IConfiguration Configuration { get; }
 
+        public static String sqlConn = null;
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var sqlConn = Configuration.GetValue<String>("MediaPlatContextConnectionStr");
+            sqlConn = Configuration.GetValue<String>("MediaPlatContextConnectionStr");
             var options = new DbContextOptionsBuilder<MediaPlatContext>()
           .UseSqlServer(sqlConn)
            .Options;
@@ -48,6 +50,39 @@ namespace ZLServerDashboard
 
             // services.AddHangfire(r => r.UseSqlServerStorage(sqlConn));
             var redisConn = Configuration.GetValue<String>("RedisConnectStr");
+
+
+            services.AddCors(options =>
+           {
+               options.AddPolicy("MyAllowSpecificOrigins",
+                   builder =>
+                    builder.WithOrigins("http://localhost:8089", "http://192.168.18.12:8091")
+                   /*
+                   根据自己情况调整
+
+
+                   如果同时打开 AllowAnyOrigin()
+                                       .AllowAnyMethod()
+                                       .AllowAnyHeader()
+                                       .AllowCredentials());
+                   会抛下面这个异常：
+                   System.InvalidOperationException: Endpoint AnXin.DigitalFirePlatform.WebApi.Controllers.StaticPersonController.Get (AnXin.DigitalFirePlatform.WebApi) contains CORS metadata, but a middleware was not found that supports CORS.
+                   Configure your application startup by adding app.UseCors() inside the call to Configure(..) in the application startup code. The call to app.UseAuthorization() must appear between app.UseRouting() and app.UseEndpoints(...).
+                      at Microsoft.AspNetCore.Routing.EndpointMiddleware.ThrowMissingCorsMiddlewareException(Endpoint endpoint)
+                      at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+                      at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+                      at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+
+
+
+                   */
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials());
+
+           });
+
+            services.AddControllers();
 
             services.AddControllersWithViews();
             services.AddSignalR();
@@ -71,6 +106,7 @@ namespace ZLServerDashboard
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IMediaService, MediaService>();
             services.AddAutoMapper(typeof(MappingProfile));
         }
 
@@ -87,8 +123,8 @@ namespace ZLServerDashboard
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
-
+            // app.UseHttpsRedirection();
+            app.UseCors("MyAllowSpecificOrigins");
 
             app.UseDefaultFiles();
 

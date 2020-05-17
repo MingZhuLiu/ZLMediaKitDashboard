@@ -13,10 +13,10 @@ namespace ZLServerDashboard.Commons
             CreateMap<TbRole, RoleDto>().ReverseMap();
             CreateMap<TbUserRole, UserRoleDto>().ReverseMap();
             CreateMap<TbMenuRole, MenuRoleDto>().ReverseMap();
+            CreateMap<TbDomain, DomainDto>().ReverseMap();
+            CreateMap<TbApplication, ApplicationDto>().ReverseMap();
+            CreateMap<TbStreamProxy, StreamProxyDto>().ReverseMap();
 
-
-            
-            
         }
     }
 }

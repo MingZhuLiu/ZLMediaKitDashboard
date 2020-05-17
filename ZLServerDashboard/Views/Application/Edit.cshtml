@@ -1,66 +1,36 @@
-﻿@model ZLServerDashboard.Models.ViewDto.MenuEditDatasourceDto
+﻿@model ZLServerDashboard.Models.Dto.ApplicationDto
 @{
-    ViewData["Title"] = "编辑菜单";
+    ViewData["Title"] = "编辑应用";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 
     <form class="layui-form" lay-filter="component-form-element" style="margin:30px">
         <div class="layui-form-item" hidden="hidden">
-            <label class="layui-form-label">菜单ID：</label>
+            <label class="layui-form-label">应用ID：</label>
             <div class="layui-input-block">
-                <input type="text" name="Id" lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" value="@Model.Menu.Id">
+                <input type="text" name="Id" lay-verify="required" placeholder="请输入应用名称" autocomplete="off" class="layui-input" value="@Model.Id">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">菜单名称：</label>
+            <label class="layui-form-label">应用名称：</label>
             <div class="layui-input-block">
-                <input type="text" name="Name" lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" value="@Model.Menu.Name">
+                <input type="text" name="App"   lay-verify="required" placeholder="请输入应用名称" autocomplete="off" class="layui-input" value="@Model.App">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">父级菜单：</label>
-            <div class="layui-input-block">
-                <select name="ParentId" lay-search>
-                   
-                        @foreach (var item in Model.Menus)
-                        {
-                            @if (item.Id == Model.Menu.ParentId)
-                            {
-                                <option value="@item.Id" selected="selected">@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        }
-
-                </select>
-            </div>
+      
+       <div class="layui-form-item">
+        <label class="layui-form-label">应用备注：</label>
+        <div class="layui-input-block">
+            <textarea name="Remark" placeholder="请输入应用备注：" style="height: 100px;" class="layui-input" >@Model.Remark</textarea>
+            @* <input type="text" name="Remark" placeholder="请输入域名备注：" class="layui-input" value="@Model.DomainName"> *@
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">菜单链接：</label>
-            <div class="layui-input-block">
-                <input type="text" name="Url" placeholder="请输入菜单链接" class="layui-input"   value="@Model.Menu.Url">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">菜单图标：</label>
-            <div class="layui-input-block">
-                <input type="text" name="Icon" placeholder="请输入菜单图标" class="layui-input" value="@Model.Menu.Icon">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">菜单排序：</label>
-            <div class="layui-input-block">
-                <input type="text" name="Order" placeholder="请输入菜单序号" class="layui-input" lay-verify="required" value="@Model.Menu.Order">
-            </div>
-        </div>
+    </div>
         <div class="layui-form-item">
             <label class="layui-form-label">状态：</label>
             <div class="layui-input-block">
                 <select name="Status" lay-search>
-                    @if (Model.Menu.Status == ZLServerDashboard.Models.Enums.MenuStatus.Normal)
+                    @if (Model.Status == ZLServerDashboard.Models.Enums.ApplicationState.Normal)
                     {
                         <option value="200" selected="selected">正常</option>
                         <option value="500">停用</option>
@@ -70,7 +40,6 @@
                         <option value="200" >正常</option>
                         <option value="500" selected="selected">停用</option>
                     }
-
                 </select>
             </div>
         </div>
@@ -119,7 +88,7 @@
 
 
             var tip = layer.msg('保存中....', { icon: 16, shade: 0.3, time: 0 });
-            $.post("/Menu/Edit", data.field, function (result) {
+            $.post("/Application/Edit", data.field, function (result) {
                 layer.close(tip);
 
                 if (result.Flag) {

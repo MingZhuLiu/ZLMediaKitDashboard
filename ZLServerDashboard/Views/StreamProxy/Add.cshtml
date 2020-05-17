@@ -1,0 +1,171 @@
+﻿@model ZLServerDashboard.Models.ViewDto.SteamProxyEditDataSource
+
+@{
+ViewData["Title"] = "添加视频源";
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<form class="layui-form" action="" lay-filter="component-form-element" style="margin:30px" id="form1" name="form1">
+   
+<div class="layui-form-item">
+          <label class="layui-form-label">视频名称</label>
+          <div class="layui-input-block">
+            <input type="tel" name="Name"  autocomplete="off" class="layui-input"  lay-verify="required" >
+          </div>
+</div>
+   
+    <div class="layui-form-item">
+
+        
+
+        <div class="layui-inline">
+          <label class="layui-form-label">域名</label>
+          <div class="layui-input-inline">
+            <select name="DomainId"  lay-verify="required"  lay-search>
+                @foreach (var item in Model.Domains)
+                {
+                    <option value="@item.Id">@item.DomainName</option>
+                }
+            </select>
+          </div>
+        </div>
+
+        <div class="layui-inline">
+         <label class="layui-form-label">应用</label>
+          <div class="layui-input-inline">
+            <select name="AppId"  lay-verify="required"  lay-search>
+                @foreach (var item in Model.Applications)
+                {
+                    <option value="@item.Id">@item.App</option>
+                }
+            </select>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class="layui-form-item">
+        
+        <div class="layui-inline">
+          <label class="layui-form-label">流Id</label>
+          <div class="layui-input-inline">
+            <input type="text" name="StreamName" lay-verify="required" placeholder="请输入流Id" autocomplete="off"
+                class="layui-input">
+          </div>
+        </div>
+
+          
+        <div class="layui-inline">
+          <label class="layui-form-label">拉流类型</label>
+          <div class="layui-input-inline">
+             <select name="RtpType" lay-search>
+                    <option value="0" selected="selected">TCP</option>
+                    <option value="1">UDP</option>
+                    <option value="2">组播</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+   
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">拉流地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="SourceUrl" lay-verify="required" placeholder="请输入拉流地址" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    
+
+
+
+    <div class="layui-form-item">
+            <label class="layui-form-label">配置</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="EnableRtsp" title="转RTSP" lay-skin="primary" checked>
+            <input type="checkbox" name="EnableRtmp" title="转RTMP" lay-skin="primary" checked>
+            <input type="checkbox" name="EnableHls" title="转HLS" lay-skin="primary" checked>
+            <input type="checkbox" name="EnableMp4" title="录制MP4" lay-skin="primary" >
+        </div>
+
+      
+    </div>
+    
+
+
+   
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态：</label>
+        <div class="layui-input-block">
+            <select name="State" lay-search>
+                <option value="200" selected="selected">正常</option>
+                <option value="500">停用</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="Remark" class="layui-input" style="height: 130px;"  placeholder="请输入备注" ></textarea>
+
+        </div>
+    </div>
+
+
+  
+
+    <div class="layui-form-item layui-layout-admin">
+        <div class="layui-input-block">
+            <div class="layui-input-block" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="submitForm">保存</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        form.render();
+        //监听提交
+        form.on('submit(submitForm)', function (data) {
+            
+            var postData=data.field;
+            postData.EnableRtsp=postData.EnableRtsp&&postData.EnableRtsp==='on'?true:false;
+            postData.EnableRtmp=postData.EnableRtmp&&postData.EnableRtmp==='on'?true:false;
+            postData.EnableHls=postData.EnableHls&&postData.EnableHls==='on'?true:false;
+            postData.EnableMp4=postData.EnableMp4&&postData.EnableMp4==='on'?true:false;
+            var tip = layer.msg('保存中....', { icon: 16, shade: 0.3, time: 0 });
+            $.post("/StreamProxy/Add", postData, function (result) {
+                layer.close(tip);
+                if (result.Flag) {
+                    parent.successMsg('保存成功');
+                    parent.reload();
+                    var index = parent.layer.getFrameIndex('addMenu'); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                }
+                else {
+                    layer.msg(result.Msg, { icon: 5 }, function () { });
+                }
+            });
+            return false;
+
+        });
+    });
+
+
+</script>

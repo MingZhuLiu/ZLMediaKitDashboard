@@ -1,0 +1,61 @@
+@model ZLServerDashboard.Models.ViewDto.StreamProxyViewDto
+@{
+ViewData["Title"] = "视频查看";
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<script type="text/javascript" charset="utf-8" src="/lib/flv.js/flv.min.js"></script>
+
+ <div class="mainContainer" id="mainContainer" style="width: 100%;">
+        <video name="videoElement" class="centeredVideo" id="videoElement"  playsinline="true"  style="width: 100%;height:100%;object-fit: fill;" autoplay>
+            Your browser is too old which doesn't support HTML5 video.
+        </video>
+    </div>
+
+<script>
+  var isOnline =@Html.Raw(@Model.isOnline.ToString().ToLower());
+  $(function () {
+    if (isOnline) {
+      playFlv();
+
+
+      window.onresize = function () {
+        var height =$(window).height();
+          $("#videoElement").height(height);
+          $("#mainContainer").height(height);
+      }
+
+    }
+    else {
+      parent.layer.msg('该媒体流不在线!', {
+        time: 2000, //20s后自动关闭
+      });
+      var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+      parent.layer.close(index); //再执行关闭
+    }
+
+
+  });
+
+
+  function playFlv() {
+    var height = $(window).height();
+     $("#videoElement").height(height);
+     $("#mainContainer").height(height);
+    if (flvjs.isSupported()) {
+      var videoElement = document.getElementById('videoElement');
+      var flvPlayer = flvjs.createPlayer({
+        type: 'flv',
+        url: '@Model.WsFlvUrl&Token=@Model.Token',
+        isLive: true,
+                hasAudio: false,
+                hasVideo: true,
+                enableStashBuffer: true,
+      });
+      flvPlayer.attachMediaElement(videoElement);
+      flvPlayer.load();
+      flvPlayer.play();
+    }
+  }
+</script>
